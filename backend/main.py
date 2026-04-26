@@ -16,10 +16,12 @@ app.add_middleware(
 )
 
 @app.get("/")
+@app.get("/api")
 def read_root():
     return {"message": "Resume Analyzer AI Backend API is running."}
 
 @app.post("/api/analyze-resume")
+@app.post("/analyze-resume")
 async def analyze_resume(file: UploadFile = File(...)):
     if file.content_type != "application/pdf":
         raise HTTPException(status_code=400, detail="Only PDF files are supported.")
