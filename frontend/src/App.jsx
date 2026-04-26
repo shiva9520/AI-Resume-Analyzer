@@ -19,7 +19,7 @@ function App() {
     formData.append('file', uploadedFile);
 
     try {
-      const response = await fetch('/api/analyze-resume', {
+      const response = await fetch('http://127.0.0.1:8000/api/analyze-resume', {
         method: 'POST',
         body: formData,
       });
