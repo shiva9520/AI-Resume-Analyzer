@@ -19,7 +19,8 @@ function App() {
     formData.append('file', uploadedFile);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/analyze-resume', {
+      const API_URL = import.meta.env.DEV ? 'http://127.0.0.1:8000/api/analyze-resume' : '/api/analyze-resume';
+      const response = await fetch(API_URL, {
         method: 'POST',
         body: formData,
       });
