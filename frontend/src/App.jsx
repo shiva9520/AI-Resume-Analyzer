@@ -19,7 +19,7 @@ function App() {
     formData.append('file', uploadedFile);
 
     try {
-      const response = await fetch('/api/analyze-resume', {
+      const response = await fetch('http://127.0.0.1:8000/api/analyze-resume', {
         method: 'POST',
         body: formData,
       });
@@ -58,7 +58,7 @@ function App() {
 
       <main>
         <AnimatePresence mode="wait">
-          {!file && !loading && !results && (
+          {!file && !loading && !results && !error && (
             <motion.div
               key="uploader"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -67,12 +67,27 @@ function App() {
               transition={{ duration: 0.3 }}
             >
               <FileUploader onUpload={handleFileUpload} />
-              {error && (
-                <div className="error-message">
-                  <AlertCircle size={20} />
-                  <span>{error}</span>
-                </div>
-              )}
+            </motion.div>
+          )}
+
+          {error && !loading && (
+            <motion.div
+              key="error-page"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="glass-card loading-container"
+              style={{ borderColor: 'var(--warning)', background: 'rgba(245, 158, 11, 0.05)' }}
+            >
+              <AlertCircle size={64} color="var(--warning)" />
+              <h2 style={{ color: 'var(--warning)' }}>Please Try Again</h2>
+              <p className="subtitle" style={{ fontSize: '1rem', textAlign: 'center' }}>
+                {error}
+              </p>
+              <button className="reset-btn" onClick={handleReset} style={{ width: 'auto', marginTop: '1rem' }}>
+                Go Back
+              </button>
             </motion.div>
           )}
 

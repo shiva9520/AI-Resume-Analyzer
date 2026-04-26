@@ -45,4 +45,7 @@ async def analyze_resume(file: UploadFile = File(...)):
         return analysis_dict
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        error_msg = str(e)
+        if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg or "quota" in error_msg.lower():
+            raise HTTPException(status_code=429, detail="API rate limit exceeded. Please wait a minute and try again.")
+        raise HTTPException(status_code=500, detail=error_msg)
